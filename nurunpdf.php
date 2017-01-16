@@ -43,7 +43,7 @@ if($reportOBJ->sre_zzzsys_sql == ''){
     $phpCode = nuReplaceHashes($reportOBJ->slp_php, $hashData);
     eval($phpCode);
 } else {
-    $createTableSQL = $reportOBJ->sre_zzzsys_sql;
+    $createTableSQL = nuReplaceHashes($reportOBJ->sre_zzzsys_sql, $hashData);
     nuRunQuery('CREATE TABLE '.$GLOBALS['nu_temp_table_id'].' '.$createTableSQL);
 }
 
@@ -552,14 +552,16 @@ class nuSECTION {
         for($i = 0; $i < count($sectionObjects); $i++){
             $sectionObjects[$i]->filePath = '';
             if($sectionObjects[$i]->objectType == 'field' or $sectionObjects[$i]->objectType == 'label'){
-                if(array_key_exists($sectionObjects[$i]->fieldName, $this->ROW)){
-                    if($sectionObjects[$i]->objectType == 'field'  and substr($this->ROW[$sectionObjects[$i]->fieldName],0,1) == '#' and substr($this->ROW[$sectionObjects[$i]->fieldName],2,1) == '#' and substr($this->ROW[$sectionObjects[$i]->fieldName],9,1) == '|'){
-                        $format = $this->nuGetFormatting($sectionObjects[$i]);
-                        if($format['B'] != ''){
-                            $sectionObjects[$i]->B = '#' . $format['B'];
-                        }
-                        if($format['F'] != ''){
-                            $sectionObjects[$i]->F = '#' . $format['F'];
+                if(is_array($this->ROW)){
+                    if(array_key_exists($sectionObjects[$i]->fieldName, $this->ROW)){
+                        if($sectionObjects[$i]->objectType == 'field'  and substr($this->ROW[$sectionObjects[$i]->fieldName],0,1) == '#' and substr($this->ROW[$sectionObjects[$i]->fieldName],2,1) == '#' and substr($this->ROW[$sectionObjects[$i]->fieldName],9,1) == '|'){
+                            $format = $this->nuGetFormatting($sectionObjects[$i]);
+                            if($format['B'] != ''){
+                                $sectionObjects[$i]->B = '#' . $format['B'];
+                            }
+                            if($format['F'] != ''){
+                                $sectionObjects[$i]->F = '#' . $format['F'];
+                            }
                         }
                     }
                 }

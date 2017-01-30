@@ -2432,7 +2432,11 @@ function nuSubformPageRecords($subformID, $o, $hashData) {  //-- get subform row
     $SF['records'] = array();
     while ($r = db_fetch_array($t)) {
 		$REC = array();
-		$REC[] = $r[$f->parent_primary_key];
+        if(nuV('call_type') == 'cloneform'){
+            $REC[] = '';
+        } else {
+            $REC[] = $r[$f->parent_primary_key];
+        }
 		foreach($fieldArray as $field) {
 			if($field->sob_all_type != 'dropdown' && $field->sob_all_type != 'lookup' && $field->sob_all_type != 'display') {
 				$REC[]= nuFormatValue($r[$field->sob_all_name],$field->sob_text_format);

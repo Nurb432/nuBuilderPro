@@ -159,8 +159,14 @@ function nuPrintField($PDF, $builtSection, $builtObject, $builtObjectID, $report
 
 function nuPrintImage($PDF, $S, $contents, $O){
     $top = $S->sectionTop + $contents->top;
-    if($O->path != ''){
-        $PDF->Image($O->path, $O->left, $top, $O->width, $O->height);
+    if(property_exists($O, 'path')){
+        if($O->path != ''){
+            $PDF->Image($O->path, $O->left, $top, $O->width, $O->height);
+        }
+    } else if(property_exists($O, 'filePath')){
+        if($O->filePath != ''){
+            $PDF->Image($O->filePath, $O->left, $top, $O->width, $O->height);
+        }
     }
 }
 
@@ -881,14 +887,18 @@ class nuSECTION {
             $sql = "SELECT $count FROM $this->TABLE_ID"."_nu_summary $where " . implode(' AND ',$groups);
             $t = nuRunQuery($sql);
             $r = db_fetch_row($t);
-            if($r[1] == 0 and $type == 'p'){
-                $value = 0;
-            } else {
-                if($type == 'p'){
-                    $value  = ($r[0] / $r[1]);
+            if(array_key_exists(1, $r)){
+                if($r[1] == 0 and $type == 'p'){
+                    $value = 0;
                 } else {
-                    $value  = $r[0];
+                    if($type == 'p'){
+                        $value  = ($r[0] / $r[1]);
+                    } else {
+                        $value  = $r[0];
+                    }
                 }
+            } else {
+                $value  = $r[0];
             }
         }
         

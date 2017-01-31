@@ -100,7 +100,9 @@ function nuTT(){
 
 function nuRunPHP($c){
 
-	if($GLOBALS['phpcode_'.$c] == 1){return;}   //-- load only once
+    if(array_key_exists('phpcode_'.$c, $GLOBALS)){
+	   if($GLOBALS['phpcode_'.$c] == 1){return;}   //-- load only once
+    }
 	
 	$GLOBALS['phpcode_'.$c] = 1;
     $s                      = "SELECT * FROM zzzsys_php WHERE slp_code = ? ";

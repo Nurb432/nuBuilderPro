@@ -467,7 +467,7 @@ CREATE TABLE `template_zzzsys_object` (
   `sob_iframe_zzzsys_php_id` varchar(25) NOT NULL,
   `sob_iframe_zzzsys_report_id` varchar(25) NOT NULL,
   `sob_listbox_sql` mediumtext,
-  `sob_lookup_code_field` varchar(100) DEFAULT NULL,
+  `sob_lookup_code_field` varchar(250) DEFAULT NULL,
   `sob_lookup_default_value_sql` mediumtext,
   `sob_lookup_description_field` varchar(255) DEFAULT NULL,
   `sob_lookup_sql` mediumtext,
@@ -833,4 +833,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-31 11:16:44
+-- Dump completed on 2017-01-31 14:05:39

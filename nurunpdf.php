@@ -216,7 +216,9 @@ function nuBuildReport($PDF, $reportPropertiesFromDB){
     //======================================================    
     for($g = 0; $g < count($groups); $g++){
         $S = new nuSECTION($PDF, $ROW, $reportPropertiesFromDB, $customGroupID = (3 + $g), $headerSectionID = 0, $sectionTop);
-        $sectionTop = $S->buildSection();
+		 // If we are on the first header section for the first record, dont page break
+		$S->forceIgnorePageBreak = true;
+		$sectionTop = $S->buildSection();
         $sectionValue[$groups[$g]] = $ROW[$groups[$g]];
     }
 
@@ -515,7 +517,9 @@ class nuSECTION {
     public $reportPropertiesFromDB = array();
     public $SECTIONS = array(); //-- this Section split over pages
     public $OBJECTS = array();
-    
+	public $forceIgnorePageBreak = false;
+	
+	
     function __construct($PDF, $ROW, $reportPropertiesFromDB, $groupID, $sectionType, $sectionTop){
         $this->PDF = $PDF;
         $this->ROW = $ROW;
@@ -685,7 +689,11 @@ class nuSECTION {
 
         if($pageBreak == 1){
             $ignorePageBreak = false;
-            // if we are on the final footer sections, dont page break
+            // check if skipping page break
+            if( $this->forceIgnorePageBreak ){ 
+                $ignorePageBreak = true;
+            }
+			// if we are on the final footer sections, dont page break
             if($this->group >= 3 && $this->section == 1){
                 // reverse the order of our groups to find the last row
                 $order['d'] = 'asc ';

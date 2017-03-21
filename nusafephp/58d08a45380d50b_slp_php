@@ -1,0 +1,17 @@
+$sql_1 = "DROP TABLE IF EXISTS organization";
+$sql_2 = "CREATE TABLE organization SELECT * FROM zzzsys_course_organization";
+
+$sql_3 = "DROP TABLE IF EXISTS contact";
+$sql_4 = "CREATE TABLE contact SELECT * FROM zzzsys_course_contact";
+
+$sql_5 = "DROP TABLE IF EXISTS auto_number";
+$sql_6 = "CREATE TABLE auto_number SELECT * FROM zzzsys_course_auto_number";
+
+nuRunQuery($sql_1);
+nuRunQuery($sql_2);
+nuRunQuery($sql_3);
+nuRunQuery($sql_4);
+nuRunQuery($sql_5);
+nuRunQuery($sql_6);
+
+echo "Done !";
